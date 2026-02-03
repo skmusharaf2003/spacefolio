@@ -1,4 +1,4 @@
-export function speak(text, onStart, onEnd, enabled = true) {
+export function speak(text, onStart, onEnd, enabled = false) {
   if (!enabled || !window.speechSynthesis || !text) {
     onEnd?.();
     return;

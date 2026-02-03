@@ -155,9 +155,10 @@ export const MascotProvider = ({ children }) => {
         const isInteracting = Date.now() - lastInteractionTime < 1200;
         if (!allowDuringInteraction && isInteracting) return;
 
+        lastSpokenTextRef.current = text;
+        lastSpokenAtRef.current = now;
         // new object every time → guarantees re-trigger
         setSpeech({
-            id: now,
             text,
             source,
         });
@@ -198,6 +199,7 @@ export const MascotProvider = ({ children }) => {
                 toggleGuide,
                 requestPageSpeech,
                 registerInteraction,
+
                 // speech control
                 speech,
                 requestSpeech,
