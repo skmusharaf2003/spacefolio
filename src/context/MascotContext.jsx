@@ -1,11 +1,10 @@
 import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 
 const MascotContext = createContext({
-    registerInteraction: () => {},
+    registerInteraction: () => { },
 });
 
-const spokenPagesStorageKey = "spokenPages";
-const lastVisitedPageKey = "lastVisitedPage";
+
 
 const isMobileViewport = () => {
     if (typeof window === "undefined") return false;
@@ -14,11 +13,6 @@ const isMobileViewport = () => {
 
 const spokenPagesStorageKey = "spokenPages";
 const lastVisitedPageKey = "lastVisitedPage";
-
-const isMobileViewport = () => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(max-width: 767px)").matches;
-};
 
 export const MascotProvider = ({ children }) => {
     const utteranceRef = useRef(null);
@@ -49,7 +43,7 @@ export const MascotProvider = ({ children }) => {
             (() => {
                 if (typeof window === "undefined") return [];
                 try {
-                    const stored = sessionStorage.getItem("spokenPages");
+                    const stored = localStorage.getItem(spokenPagesStorageKey);
                     return stored ? JSON.parse(stored) : [];
                 } catch (error) {
                     return [];
@@ -57,6 +51,19 @@ export const MascotProvider = ({ children }) => {
             })()
         )
     );
+    const [currentPage, setCurrentPage] = useState(() => {
+        if (typeof window === "undefined") return null;
+        return localStorage.getItem(lastVisitedPageKey);
+    });
+    const [lastInteractionType, setLastInteractionType] = useState(null);
+    const [lastInteractionTime, setLastInteractionTime] = useState(0);
+    const lastSpokenTextRef = useRef(null);
+
+    function registerInteraction(type) {
+        const time = Date.now();
+        setLastInteractionType(type);
+        setLastInteractionTime(time);
+    }
 
 
     const toggleGuide = () => {

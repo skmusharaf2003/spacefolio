@@ -52,7 +52,6 @@ Each item contains:
 >   - Circular shape
 >   - Skill icon centered
 >   - Soft glow
->
 > - Planet size depends on `confidence`:
 >   - high → larger + stronger glow
 >   - medium → slightly smaller + softer glow
@@ -132,7 +131,6 @@ Array of strings:
 >   - Smaller than core skill planets
 >   - Lower glow intensity
 >   - Subtle border
->
 > - Wave path is:
 >   - Thinner than core wave
 >   - Lower opacity

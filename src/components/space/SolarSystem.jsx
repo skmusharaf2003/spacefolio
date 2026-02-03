@@ -8,7 +8,7 @@ const SolarSystem = ({ onPlanetFocus }) => {
     const containerRef = useRef(null);
     const trackRef = useRef(null);
 
-    const { setActivePlanet, setActivePlanetPos, requestPageSpeech } = useMascot();
+    const { setActivePlanet, setActivePlanetPos, requestPageSpeech, registerInteraction } = useMascot();
 
     const [isDragging, setIsDragging] = useState(false);
     const [activePlanetId, setActivePlanetId] = useState(null);
