@@ -31,15 +31,15 @@ const JourneyPhase = ({
     } = useMascot();
 
     useEffect(() => {
-        if (inView) {
-            setActivePlanet("journey");
-            registerInteraction("scroll");
-            requestSpeech(
-                phase.botText ||
-                `This phase represents ${phase.phase.title}. ${phase.preview.summary}`, "journey"
-            );
-        }
-    }, [inView]);
+        if (!isExpanded) return;
+        setActivePlanet("journey");
+        registerInteraction("journey");
+        requestSpeech(
+            phase.botText ||
+            `This phase represents ${phase.phase.title}. ${phase.preview.summary}`,
+            "journey"
+        );
+    }, [isExpanded]);
 
 
     /* ---------------- STATUS LOGIC ---------------- */

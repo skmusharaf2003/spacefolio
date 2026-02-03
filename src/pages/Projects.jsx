@@ -34,12 +34,9 @@ const Projects = () => {
         });
 
         requestSpeech(
-            project.botText || "This project demonstrates applied development skills.",
-            "action"
+            project.botText || project.tagline || "This project demonstrates applied development skills.",
+            "projects"
         );
-
-
-        requestSpeech(project.botText || project.tagline, "projects");
 
     };
 
