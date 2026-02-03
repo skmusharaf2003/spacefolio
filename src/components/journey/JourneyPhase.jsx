@@ -26,7 +26,7 @@ const JourneyPhase = ({
     const {
         setActivePlanet,
         setActivePlanetPos,
-        requestSpeech,
+        triggerSpeechIntent,
         registerInteraction
     } = useMascot();
 

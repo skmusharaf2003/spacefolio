@@ -8,7 +8,7 @@ export default function ExperienceSection() {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        requestSpeech,
+        triggerSpeechIntent,
         registerInteraction
     } = useMascot();
 

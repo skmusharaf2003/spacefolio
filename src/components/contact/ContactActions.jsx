@@ -31,7 +31,6 @@ const ContactActions = ({ contactData }) => {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        requestSpeech,
         registerInteraction
     } = useMascot();
 
@@ -45,7 +44,6 @@ const ContactActions = ({ contactData }) => {
             y: rect.top,
         });
 
-        requestSpeech(`You can reach me via ${item.label}.`, "contact");
     };
 
     return (

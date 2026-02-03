@@ -356,7 +356,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                                     <button
                                         key={item.route}
                                         onClick={() => {
-                                            requestSpeech(item.script, "navigation");
+                                            triggerSpeechIntent(item.script, "navigation");
                                             navigate(item.route);
                                             setGuideOpen(false);
                                         }}
