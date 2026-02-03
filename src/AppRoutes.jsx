@@ -46,7 +46,7 @@ const AppRoutes = () => {
         if (!config) return;
 
         setActivePlanet(config.planet);
-        requestPageSpeech(location.pathname, config.text);
+        requestPageSpeech(config.planet, config.text);
     }, [location.pathname]);
 
 
