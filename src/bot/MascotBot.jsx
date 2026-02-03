@@ -16,6 +16,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
     const hintTimerRef = useRef(null);
     const idleTimerRef = useRef(null);
     const recoveryTimerRef = useRef(null);
+    const handledSpeechIdRef = useRef(null);
     const shownHintsRef = useRef(new Set());
     const [direction, setDirection] = useState('right');
     const [vertical, setVertical] = useState('bottom');
@@ -112,6 +113,10 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
     /* ---------------- SPEECH HANDLER ---------------- */
     useEffect(() => {
         if (!speech?.text || !voiceEnabled) return;
+        if (speech.id && handledSpeechIdRef.current === speech.id) return;
+        if (speech.id) {
+            handledSpeechIdRef.current = speech.id;
+        }
 
         // 🔴 CRITICAL: stop previous speech
         window.speechSynthesis.cancel();
