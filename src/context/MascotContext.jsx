@@ -58,6 +58,7 @@ export const MascotProvider = ({ children }) => {
     const [lastInteractionType, setLastInteractionType] = useState(null);
     const [lastInteractionTime, setLastInteractionTime] = useState(0);
     const lastSpokenTextRef = useRef(null);
+    const lastSpokenAtRef = useRef(0);
 
     function registerInteraction(type) {
         const time = Date.now();
@@ -137,7 +138,10 @@ export const MascotProvider = ({ children }) => {
      */
     const requestSpeech = (text, source = "manual") => {
         if (!text) return;
+        if (isSpeaking) return;
+        const now = Date.now();
         if (lastSpokenTextRef.current === text) return;
+        if (now - lastSpokenAtRef.current < 800) return;
         const allowDuringInteraction = new Set([
             "action",
             "planet",
@@ -153,10 +157,16 @@ export const MascotProvider = ({ children }) => {
 
         // new object every time → guarantees re-trigger
         setSpeech({
+            id: now,
             text,
             source,
         });
         lastSpokenTextRef.current = text;
+        lastSpokenAtRef.current = now;
+    };
+
+    const clearSpeech = () => {
+        setSpeech(null);
     };
 
     const requestPageSpeech = (page, text) => {
@@ -194,6 +204,7 @@ export const MascotProvider = ({ children }) => {
                 speak,
                 requestGuide,
                 stop,
+                clearSpeech,
 
                 // planet UI
                 activePlanet,
