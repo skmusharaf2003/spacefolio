@@ -13,6 +13,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
     const hintTimerRef = useRef(null);
 
     const botRef = useRef(null);
+    const constraintsRef = useRef(null);
     const [mood, setMood] = useState("idle");
     const {
         guideOpen,
@@ -129,16 +130,18 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
 
 
     return (
-
-        <motion.div
-            ref={botRef}
-            animate={controls}
-            initial={{ left: 20, top: window.innerHeight - 140 }}
-            className="fixed z-50"
-            drag
-            dragMomentum={false}
-            onClick={toggleGuide}
-        >
+        <div ref={constraintsRef} className="fixed inset-0 z-50 pointer-events-none">
+            <motion.div
+                ref={botRef}
+                animate={controls}
+                initial={{ left: 20, top: window.innerHeight - 140 }}
+                className="absolute z-50 pointer-events-auto"
+                drag
+                dragConstraints={constraintsRef}
+                dragElastic={0}
+                dragMomentum={false}
+                onClick={toggleGuide}
+            >
             {/* BODY */}
             <motion.div
                 className="relative w-10 h-10 md:w-14 md:h-14 rounded-full
@@ -271,6 +274,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
             )}
 
         </motion.div>
+        </div>
     );
 };
 
