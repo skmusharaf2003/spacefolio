@@ -31,13 +31,15 @@ const ContactActions = ({ contactData }) => {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        requestSpeech
+        requestSpeech,
+        registerInteraction
     } = useMascot();
 
     const handleContactHover = (item, e) => {
         const rect = e.currentTarget.getBoundingClientRect();
 
         setActivePlanet("contact");
+        registerInteraction("contact");
         setActivePlanetPos({
             x: rect.left + rect.width / 2,
             y: rect.top,

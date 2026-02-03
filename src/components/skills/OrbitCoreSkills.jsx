@@ -6,7 +6,8 @@ const CoreSkillsWave = ({ skills, onSelect }) => {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        requestSpeech
+        requestSpeech,
+        registerInteraction
     } = useMascot();
 
 
@@ -65,6 +66,7 @@ const CoreSkillsWave = ({ skills, onSelect }) => {
         const rect = e.currentTarget.getBoundingClientRect();
 
         setActivePlanet("skills");
+        registerInteraction("skills");
         setActivePlanetPos({
             x: rect.left + rect.width / 2,
             y: rect.top,

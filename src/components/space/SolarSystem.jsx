@@ -8,7 +8,12 @@ const SolarSystem = ({ onPlanetFocus }) => {
     const containerRef = useRef(null);
     const trackRef = useRef(null);
 
-    const { setActivePlanet, setActivePlanetPos, requestSpeech } = useMascot();
+    const {
+        setActivePlanet,
+        setActivePlanetPos,
+        requestPageSpeech,
+        registerInteraction,
+    } = useMascot();
 
     const [isDragging, setIsDragging] = useState(false);
     const [activePlanetId, setActivePlanetId] = useState(null);
@@ -38,6 +43,7 @@ const SolarSystem = ({ onPlanetFocus }) => {
     const focusPlanet = (planet, position = null) => {
         setActivePlanetId(planet.id);
         setActivePlanet(planet.id);
+        registerInteraction("planet");
 
         const pos = position || getPlanetCenterPos(planet.id);
 
@@ -48,7 +54,8 @@ const SolarSystem = ({ onPlanetFocus }) => {
 
         // 🔊 SPEAK HERE
         if (planet.script) {
-            requestSpeech(planet.script, "planet");
+            const pageKey = planet.route || planet.section || planet.id;
+            requestPageSpeech(pageKey, planet.script);
         }
     };
 

@@ -2,13 +2,22 @@ import React, { createContext, useContext, useRef, useState, useEffect } from "r
 
 const MascotContext = createContext(null);
 
+const spokenPagesStorageKey = "spokenPages";
+const lastVisitedPageKey = "lastVisitedPage";
+
+const isMobileViewport = () => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 767px)").matches;
+};
+
 export const MascotProvider = ({ children }) => {
     const utteranceRef = useRef(null);
 
     // voice system
     const [voiceEnabled, setVoiceEnabled] = useState(() => {
         const saved = localStorage.getItem("voiceEnabled");
-        return saved === null ? true : JSON.parse(saved);
+        if (saved !== null) return JSON.parse(saved);
+        return !isMobileViewport();
     });
 
     useEffect(() => {
@@ -25,7 +34,32 @@ export const MascotProvider = ({ children }) => {
     const [activePlanet, setActivePlanet] = useState(null);
     const [activePlanetPos, setActivePlanetPos] = useState(null);
     const [guideOpen, setGuideOpen] = useState(false);
-    const spokenPagesRef = useRef(new Set());
+    const spokenPagesRef = useRef(
+        new Set(
+            (() => {
+                if (typeof window === "undefined") return [];
+                try {
+                    const stored = localStorage.getItem(spokenPagesStorageKey);
+                    return stored ? JSON.parse(stored) : [];
+                } catch (error) {
+                    return [];
+                }
+            })()
+        )
+    );
+    const [currentPage, setCurrentPage] = useState(() => {
+        if (typeof window === "undefined") return null;
+        return localStorage.getItem(lastVisitedPageKey);
+    });
+    const [lastInteractionType, setLastInteractionType] = useState(null);
+    const [lastInteractionTime, setLastInteractionTime] = useState(0);
+    const lastSpokenTextRef = useRef(null);
+
+    const registerInteraction = (type) => {
+        const time = Date.now();
+        setLastInteractionType(type);
+        setLastInteractionTime(time);
+    };
 
 
     const toggleGuide = () => {
@@ -94,17 +128,37 @@ export const MascotProvider = ({ children }) => {
      */
     const requestSpeech = (text, source = "manual") => {
         if (!text) return;
+        if (lastSpokenTextRef.current === text) return;
+        const allowDuringInteraction = new Set([
+            "action",
+            "planet",
+            "projects",
+            "experience",
+            "skills",
+            "journey",
+            "contact",
+            "navigation",
+        ]).has(source);
+        const isInteracting = Date.now() - lastInteractionTime < 1200;
+        if (!allowDuringInteraction && isInteracting) return;
 
         // new object every time → guarantees re-trigger
         setSpeech({
             text,
             source,
         });
+        lastSpokenTextRef.current = text;
     };
 
     const requestPageSpeech = (page, text) => {
-        if (spokenPagesRef.current.has(page)) return;
+        if (!page || spokenPagesRef.current.has(page)) return;
         spokenPagesRef.current.add(page);
+        if (typeof window !== "undefined") {
+            localStorage.setItem(
+                spokenPagesStorageKey,
+                JSON.stringify(Array.from(spokenPagesRef.current))
+            );
+        }
         requestSpeech(text, "page");
     };
 
@@ -124,6 +178,7 @@ export const MascotProvider = ({ children }) => {
                 setGuideOpen,
                 toggleGuide,
                 requestPageSpeech,
+                registerInteraction,
                 // speech control
                 speech,
                 requestSpeech,
@@ -136,6 +191,10 @@ export const MascotProvider = ({ children }) => {
                 activePlanetPos,
                 setActivePlanet,
                 setActivePlanetPos,
+                currentPage,
+                setCurrentPage,
+                lastInteractionType,
+                lastInteractionTime,
             }}
         >
             {children}
