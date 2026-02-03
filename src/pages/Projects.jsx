@@ -14,7 +14,8 @@ const Projects = () => {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        requestSpeech
+        requestSpeech,
+        registerInteraction
     } = useMascot();
 
     const handleSelectProject = (project, e) => {
@@ -25,6 +26,7 @@ const Projects = () => {
         setSelectedForBot(project);
 
         setActivePlanet("projects");
+        registerInteraction("project");
 
         setActivePlanetPos({
             x: rect.left + rect.width / 2,

@@ -39,33 +39,22 @@ const routeNarration = {
 
 const AppRoutes = () => {
     const location = useLocation();
-    const { requestSpeech, setActivePlanet, requestPageSpeech } = useMascot();
+    const {
+        setActivePlanet,
+        requestPageSpeech,
+        setCurrentPage,
+        registerInteraction,
+    } = useMascot();
 
     useEffect(() => {
         const config = routeNarration[location.pathname];
         if (!config) return;
 
         setActivePlanet(config.planet);
-        requestPageSpeech(config.planet, config.text);
-    }, [location.pathname]);
-
-
-    useEffect(() => {
-        const config = routeNarration[location.pathname];
-        if (!config) return;
-
-        setActivePlanet(config.planet);
-        requestSpeech(config.text, "page");
-
-        // delayed hint (non-annoying)
-        const hintTimer = setTimeout(() => {
-            requestSpeech(
-                "You can explore other sections using the planets.",
-                "hint"
-            );
-        }, 6000);
-
-        return () => clearTimeout(hintTimer);
+        setCurrentPage(config.planet);
+        registerInteraction("route");
+        localStorage.setItem("lastVisitedPage", config.planet);
+        requestPageSpeech(location.pathname, config.text);
     }, [location.pathname]);
 
 

@@ -8,13 +8,15 @@ export default function ExperienceSection() {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        requestSpeech
+        requestSpeech,
+        registerInteraction
     } = useMascot();
 
     const handleExperienceSelect = (exp, e) => {
         const rect = e.currentTarget.getBoundingClientRect();
 
         setActivePlanet("experience");
+        registerInteraction("experience");
         setActivePlanetPos({
             x: rect.left + rect.width / 2,
             y: rect.top,

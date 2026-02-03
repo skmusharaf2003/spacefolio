@@ -21,23 +21,25 @@ const JourneyPhase = ({
         if (inView) onActivate();
     }, [inView, onActivate]);
 
+    // console.log("->", phase.phase.title, phase.preview.summary, phase.botText)
+
+    const {
+        setActivePlanet,
+        setActivePlanetPos,
+        requestSpeech,
+        registerInteraction
+    } = useMascot();
+
     useEffect(() => {
         if (inView) {
             setActivePlanet("journey");
+            registerInteraction("scroll");
             requestSpeech(
                 phase.botText ||
                 `This phase represents ${phase.phase.title}. ${phase.preview.summary}`, "journey"
             );
         }
     }, [inView]);
-
-    // console.log("->", phase.phase.title, phase.preview.summary, phase.botText)
-
-    const {
-        setActivePlanet,
-        setActivePlanetPos,
-        requestSpeech
-    } = useMascot();
 
 
     /* ---------------- STATUS LOGIC ---------------- */
