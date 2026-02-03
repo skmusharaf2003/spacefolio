@@ -39,7 +39,7 @@ export const MascotProvider = ({ children }) => {
             (() => {
                 if (typeof window === "undefined") return [];
                 try {
-                    const stored = localStorage.getItem(spokenPagesStorageKey);
+                    const stored = sessionStorage.getItem("spokenPages");
                     return stored ? JSON.parse(stored) : [];
                 } catch (error) {
                     return [];
@@ -47,19 +47,6 @@ export const MascotProvider = ({ children }) => {
             })()
         )
     );
-    const [currentPage, setCurrentPage] = useState(() => {
-        if (typeof window === "undefined") return null;
-        return localStorage.getItem(lastVisitedPageKey);
-    });
-    const [lastInteractionType, setLastInteractionType] = useState(null);
-    const [lastInteractionTime, setLastInteractionTime] = useState(0);
-    const lastSpokenTextRef = useRef(null);
-
-    const registerInteraction = (type) => {
-        const time = Date.now();
-        setLastInteractionType(type);
-        setLastInteractionTime(time);
-    };
 
 
     const toggleGuide = () => {
@@ -154,8 +141,8 @@ export const MascotProvider = ({ children }) => {
         if (!page || spokenPagesRef.current.has(page)) return;
         spokenPagesRef.current.add(page);
         if (typeof window !== "undefined") {
-            localStorage.setItem(
-                spokenPagesStorageKey,
+            sessionStorage.setItem(
+                "spokenPages",
                 JSON.stringify(Array.from(spokenPagesRef.current))
             );
         }
