@@ -25,7 +25,19 @@ export const MascotProvider = ({ children }) => {
     const [activePlanet, setActivePlanet] = useState(null);
     const [activePlanetPos, setActivePlanetPos] = useState(null);
     const [guideOpen, setGuideOpen] = useState(false);
-    const spokenPagesRef = useRef(new Set());
+    const spokenPagesRef = useRef(
+        new Set(
+            (() => {
+                if (typeof window === "undefined") return [];
+                try {
+                    const stored = sessionStorage.getItem("spokenPages");
+                    return stored ? JSON.parse(stored) : [];
+                } catch (error) {
+                    return [];
+                }
+            })()
+        )
+    );
 
 
     const toggleGuide = () => {
@@ -103,8 +115,14 @@ export const MascotProvider = ({ children }) => {
     };
 
     const requestPageSpeech = (page, text) => {
-        if (spokenPagesRef.current.has(page)) return;
+        if (!page || spokenPagesRef.current.has(page)) return;
         spokenPagesRef.current.add(page);
+        if (typeof window !== "undefined") {
+            sessionStorage.setItem(
+                "spokenPages",
+                JSON.stringify(Array.from(spokenPagesRef.current))
+            );
+        }
         requestSpeech(text, "page");
     };
 
