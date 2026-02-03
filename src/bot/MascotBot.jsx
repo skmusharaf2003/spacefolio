@@ -206,6 +206,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
             >
             {/* BODY */}
             <motion.div
+                ref={botRef}
                 className="relative w-10 h-10 md:w-14 md:h-14 rounded-full
         bg-gradient-to-br from-secondary to-secondary-light
         shadow-lg flex items-center justify-center cursor-pointer"
@@ -279,17 +280,17 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                     exit={{ opacity: 0 }}
                     className="
       absolute top-full mt-2
-      bg-space-dark/90 backdrop-blur-md
-      border border-accent/30
-      rounded-lg px-4 py-2
+      bg-space-dark/80 backdrop-blur-md
+      border border-accent/20
+      rounded-md px-3 py-2
       text-xs text-accent/80
       pointer-events-none
 
-      min-w-[220px]
-      max-w-[360px]
+      min-w-[180px]
+      max-w-[300px]
       whitespace-normal
       leading-relaxed
-      shadow-lg
+      shadow-md
     "
                 >
                     {hint}

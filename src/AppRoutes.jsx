@@ -39,14 +39,22 @@ const routeNarration = {
 
 const AppRoutes = () => {
     const location = useLocation();
-    const { setActivePlanet, requestPageSpeech } = useMascot();
+    const {
+        setActivePlanet,
+        requestPageSpeech,
+        setCurrentPage,
+        registerInteraction,
+    } = useMascot();
 
     useEffect(() => {
         const config = routeNarration[location.pathname];
         if (!config) return;
 
         setActivePlanet(config.planet);
-        requestPageSpeech(config.planet, config.text);
+        setCurrentPage(config.planet);
+        registerInteraction("route");
+        localStorage.setItem("lastVisitedPage", config.planet);
+        requestPageSpeech(location.pathname, config.text);
     }, [location.pathname]);
 
 
