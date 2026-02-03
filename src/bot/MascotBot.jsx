@@ -19,7 +19,6 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
     const shownHintsRef = useRef(new Set());
 
     const botRef = useRef(null);
-    const wrapperRef = useRef(null);
     const constraintsRef = useRef(null);
     const [mood, setMood] = useState("idle");
     const {
@@ -193,25 +192,6 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
         }
     }, [lastInteractionTime]);
 
-    useEffect(() => {
-        if (!guideOpen) return;
-
-        const handleOutsideClick = (event) => {
-            if (!wrapperRef.current) return;
-            if (!wrapperRef.current.contains(event.target)) {
-                setGuideOpen(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleOutsideClick);
-        document.addEventListener("touchstart", handleOutsideClick);
-
-        return () => {
-            document.removeEventListener("mousedown", handleOutsideClick);
-            document.removeEventListener("touchstart", handleOutsideClick);
-        };
-    }, [guideOpen, setGuideOpen]);
-
 
 
 
@@ -224,14 +204,15 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
     return (
         <div ref={constraintsRef} className="fixed inset-0 z-50 pointer-events-none">
             <motion.div
-                ref={wrapperRef}
+                ref={botRef}
                 animate={controls}
-                initial={{ right: 20, top: 20 }}
+                initial={{ left: 20, top: window.innerHeight - 140 }}
                 className="absolute z-50 pointer-events-auto"
-                onClick={() => {
-                    registerInteraction("guide");
-                    toggleGuide();
-                }}
+                drag
+                dragConstraints={constraintsRef}
+                dragElastic={0}
+                dragMomentum={false}
+                onClick={toggleGuide}
             >
             {/* BODY */}
             <motion.div
@@ -309,14 +290,14 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                     exit={{ opacity: 0 }}
                     className="
       absolute top-full mt-2
-      bg-space-dark/85 backdrop-blur-md
-      border border-accent/25
-      rounded-lg px-3 py-2
+      bg-space-dark/80 backdrop-blur-md
+      border border-accent/20
+      rounded-md px-3 py-2
       text-xs text-accent/80
       pointer-events-none
 
-      min-w-[190px]
-      max-w-[280px]
+      min-w-[180px]
+      max-w-[300px]
       whitespace-normal
       leading-relaxed
       shadow-md

@@ -1,16 +1,18 @@
 import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 
 const MascotContext = createContext({
-    registerInteraction: () => {},
+    registerInteraction: () => { },
 });
 
-const spokenPagesStorageKey = "spokenPages";
-const lastVisitedPageKey = "lastVisitedPage";
+
 
 const isMobileViewport = () => {
     if (typeof window === "undefined") return false;
     return window.matchMedia("(max-width: 767px)").matches;
 };
+
+const spokenPagesStorageKey = "spokenPages";
+const lastVisitedPageKey = "lastVisitedPage";
 
 export const MascotProvider = ({ children }) => {
     const utteranceRef = useRef(null);
@@ -156,8 +158,8 @@ export const MascotProvider = ({ children }) => {
         if (!page || spokenPagesRef.current.has(page)) return;
         spokenPagesRef.current.add(page);
         if (typeof window !== "undefined") {
-            localStorage.setItem(
-                spokenPagesStorageKey,
+            sessionStorage.setItem(
+                "spokenPages",
                 JSON.stringify(Array.from(spokenPagesRef.current))
             );
         }
