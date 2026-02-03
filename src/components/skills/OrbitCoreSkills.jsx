@@ -73,14 +73,9 @@ const CoreSkillsWave = ({ skills, onSelect }) => {
         });
 
         requestSpeech(
-            `${skill.name}. ${skill.summary}`,
-            "action"
-        );
-
-
-        requestSpeech(
             skill.botText ||
-            `${skill.name} is one of my core skills. ${skill.summary}`, "skills"
+            `${skill.name} is one of my core skills. ${skill.summary}`,
+            "skills"
         );
     };
 

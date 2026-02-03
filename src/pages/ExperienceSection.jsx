@@ -23,14 +23,9 @@ export default function ExperienceSection() {
         });
 
         requestSpeech(
-            "This role helped me build real-world experience.",
-            "action"
-        );
-
-
-        requestSpeech(
             exp.botText ||
-            `I worked as a ${exp.role} at ${exp.company}. ${exp.outcome}`, "experience"
+            `I worked as a ${exp.role} at ${exp.company}. ${exp.outcome}`,
+            "experience"
         );
     };
 

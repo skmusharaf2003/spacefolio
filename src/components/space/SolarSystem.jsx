@@ -8,7 +8,7 @@ const SolarSystem = ({ onPlanetFocus }) => {
     const containerRef = useRef(null);
     const trackRef = useRef(null);
 
-    const { setActivePlanet, setActivePlanetPos, requestPageSpeech, registerInteraction } = useMascot();
+    const { setActivePlanet, setActivePlanetPos, requestSpeech, registerInteraction } = useMascot();
 
     const [isDragging, setIsDragging] = useState(false);
     const [activePlanetId, setActivePlanetId] = useState(null);
@@ -35,7 +35,7 @@ const SolarSystem = ({ onPlanetFocus }) => {
     };
 
     // Focus logic – called on click AND after drag ends
-    const focusPlanet = (planet, position = null) => {
+    const focusPlanet = (planet, position = null, shouldSpeak = true) => {
         setActivePlanetId(planet.id);
         setActivePlanet(planet.id);
         registerInteraction("planet");
@@ -48,21 +48,20 @@ const SolarSystem = ({ onPlanetFocus }) => {
         }
 
         // 🔊 SPEAK HERE
-        if (planet.script) {
-            const pageKey = planet.route || planet.section || planet.id;
-            requestPageSpeech(pageKey, planet.script);
+        if (planet.script && shouldSpeak) {
+            requestSpeech(planet.script, "planet");
         }
     };
 
 
     // Handle planet click
-    const handlePlanetClick = ({ id, position }) => {
+    const handlePlanetClick = ({ id, position, silent = false }) => {
         if (isDragging) return;
 
         const planet = planets.find((p) => p.id === id);
         if (!planet) return;
 
-        focusPlanet(planet, position);
+        focusPlanet(planet, position, !silent);
     };
 
     // Auto-refocus active planet after drag ends
@@ -70,7 +69,7 @@ const SolarSystem = ({ onPlanetFocus }) => {
         if (!activePlanetId) return;
         const planet = planets.find((p) => p.id === activePlanetId);
         if (planet) {
-            focusPlanet(planet);
+            focusPlanet(planet, null, false);
         }
     };
 

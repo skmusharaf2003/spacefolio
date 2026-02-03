@@ -16,6 +16,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
     const hintTimerRef = useRef(null);
     const idleTimerRef = useRef(null);
     const recoveryTimerRef = useRef(null);
+    const handledSpeechIdRef = useRef(null);
     const shownHintsRef = useRef(new Set());
     const [direction, setDirection] = useState('right');
     const [vertical, setVertical] = useState('bottom');
@@ -38,9 +39,9 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
         currentPage,
         lastInteractionTime,
         toggleGuide,
-        registerInteraction,
         requestSpeech,
-        clearActivePlanetPos
+        clearActivePlanetPos,
+        clearSpeech
     } = useMascot();
 
     /* ---------------- POSITIONING HANDLER ---------------- */
@@ -112,6 +113,10 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
     /* ---------------- SPEECH HANDLER ---------------- */
     useEffect(() => {
         if (!speech?.text || !voiceEnabled) return;
+        if (speech.id && handledSpeechIdRef.current === speech.id) return;
+        if (speech.id) {
+            handledSpeechIdRef.current = speech.id;
+        }
 
         // 🔴 CRITICAL: stop previous speech
         window.speechSynthesis.cancel();
@@ -124,6 +129,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                 () => setMood("speaking"),
                 () => {
                     setMood("idle");
+                    clearSpeech();
                     // Clear target after speech ends and return to idle position
                     setTimeout(() => {
                         clearActivePlanetPos();
@@ -134,15 +140,16 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
         }, 300);
 
         return () => clearTimeout(t);
-    }, [speech, voiceEnabled, clearActivePlanetPos]);
+    }, [speech, voiceEnabled, clearActivePlanetPos, clearSpeech]);
 
     /* ---------------- VOICE TOGGLE ---------------- */
     useEffect(() => {
         if (!voiceEnabled) {
             window.speechSynthesis.cancel();
             setMood("idle");
+            clearSpeech();
         }
-    }, [voiceEnabled]);
+    }, [voiceEnabled, clearSpeech]);
 
     const normalizeHint = (text) => {
         if (!text) return text;
