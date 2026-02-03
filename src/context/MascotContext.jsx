@@ -117,9 +117,12 @@ export const MascotProvider = ({ children }) => {
     // 🛑 STOP
     const stop = () => {
         window.speechSynthesis.cancel();
-
         setIsSpeaking(false);
-        set
+    };
+
+    // Clear planet position (returns bot to idle)
+    const clearActivePlanetPos = () => {
+        setActivePlanetPos(null);
     };
 
     // 🎧 TOGGLE VOICE
@@ -197,6 +200,7 @@ export const MascotProvider = ({ children }) => {
                 activePlanetPos,
                 setActivePlanet,
                 setActivePlanetPos,
+                clearActivePlanetPos,
                 currentPage,
                 setCurrentPage,
                 lastInteractionType,

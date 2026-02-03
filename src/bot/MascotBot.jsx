@@ -39,7 +39,8 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
         lastInteractionTime,
         toggleGuide,
         registerInteraction,
-        requestSpeech
+        requestSpeech,
+        clearActivePlanetPos
     } = useMascot();
 
     /* ---------------- POSITIONING HANDLER ---------------- */
@@ -123,16 +124,17 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                 () => setMood("speaking"),
                 () => {
                     setMood("idle");
+                    // Clear target after speech ends and return to idle position
                     setTimeout(() => {
-                        positionBot();
-                    }, 2000);
+                        clearActivePlanetPos();
+                    }, 1500);
                 },
                 voiceEnabled
             );
         }, 300);
 
         return () => clearTimeout(t);
-    }, [speech, voiceEnabled]);
+    }, [speech, voiceEnabled, clearActivePlanetPos]);
 
     /* ---------------- VOICE TOGGLE ---------------- */
     useEffect(() => {
