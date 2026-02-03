@@ -1,6 +1,16 @@
 import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 
-const MascotContext = createContext(null);
+const MascotContext = createContext({
+    registerInteraction: () => {},
+});
+
+const spokenPagesStorageKey = "spokenPages";
+const lastVisitedPageKey = "lastVisitedPage";
+
+const isMobileViewport = () => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 767px)").matches;
+};
 
 const spokenPagesStorageKey = "spokenPages";
 const lastVisitedPageKey = "lastVisitedPage";
