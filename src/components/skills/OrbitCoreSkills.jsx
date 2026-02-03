@@ -224,6 +224,10 @@ const CoreSkillsWave = ({ skills, onSelect }) => {
                                 style={{
                                     marginLeft: index % 2 === 0 ? '10%' : '40%'
                                 }}
+                                onClick={(e) => {
+                                    handleInteraction(skill);
+                                    handleSkillSelect(skill, e);
+                                }}
                             >
                                 <svg
                                     viewBox="0 0 200 120"
@@ -240,7 +244,6 @@ const CoreSkillsWave = ({ skills, onSelect }) => {
 
                                     {/* Planet */}
                                     <g
-                                        onClick={() => handleInteraction(skill)}
                                         className="cursor-pointer"
                                     >
                                         <circle
