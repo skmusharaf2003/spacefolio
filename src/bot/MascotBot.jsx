@@ -202,10 +202,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                 dragConstraints={constraintsRef}
                 dragElastic={0}
                 dragMomentum={false}
-                onClick={() => {
-                    registerInteraction("guide");
-                    toggleGuide();
-                }}
+                onClick={toggleGuide}
             >
             {/* BODY */}
             <motion.div
