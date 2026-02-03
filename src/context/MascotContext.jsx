@@ -142,7 +142,6 @@ export const MascotProvider = ({ children }) => {
         const now = Date.now();
         if (lastSpokenTextRef.current === text) return;
         if (now - lastSpokenAtRef.current < 800) return;
-        if (speech?.text === text) return;
         const allowDuringInteraction = new Set([
             "action",
             "planet",
@@ -164,6 +163,8 @@ export const MascotProvider = ({ children }) => {
             text,
             source,
         });
+        lastSpokenTextRef.current = text;
+        lastSpokenAtRef.current = now;
     };
 
     const clearSpeech = () => {

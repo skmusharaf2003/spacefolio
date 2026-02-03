@@ -48,7 +48,7 @@ const SolarSystem = ({ onPlanetFocus }) => {
         }
 
         // 🔊 SPEAK HERE
-        if (planet.script && shouldSpeak) {
+        if (planet.script) {
             requestSpeech(planet.script, "planet");
         }
     };
