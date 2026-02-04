@@ -4,6 +4,7 @@ import JourneyPhase from '../components/journey/JourneyPhase';
 import JourneyCurve from '../components/journey/JourneyCurve';
 import { journeyPhases } from '../data/journeyData';
 import { FiStar } from 'react-icons/fi';
+import BackButton from "../components/BackButton";
 
 const Journey = () => {
     const [activePhase, setActivePhase] = useState(null);
@@ -63,6 +64,7 @@ const Journey = () => {
 
             {/* Content */}
             <div className="relative z-10">
+                <BackButton className="px-4 pt-6" />
                 {/* Header */}
                 <motion.div
                     className="text-center py-12 md:py-16 lg:py-20 px-4"

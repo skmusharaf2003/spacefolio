@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
 import { profileData } from "../data/mockData";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Download, ExternalLink } from "lucide-react";
+import { Download, ExternalLink } from "lucide-react";
+import BackButton from "../components/BackButton";
 
 const Resume = () => {
-    const navigate = useNavigate();
-
     return (
         <section className="relative min-h-screen overflow-hidden bg-space-dark text-white px-4 py-20">
             {[...Array(50)].map((_, i) => (
@@ -36,19 +34,7 @@ const Resume = () => {
             <div className="relative z-10 max-w-5xl mx-auto">
 
                 {/* Back Button - Now in document flow on mobile, absolute on desktop */}
-                <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate("/")}
-                    className="mb-6 md:mb-0 md:absolute md:left-0 md:top-0
-                    flex items-center gap-2 px-4 py-2
-                    bg-space-blue/60 border border-cyan-400/40
-                    rounded-full text-cyan-300 text-sm
-                    hover:bg-space-blue/80 transition"
-                >
-                    <ArrowLeft size={16} />
-                    Home
-                </motion.button>
+                <BackButton className="mb-6 md:mb-0 md:absolute md:left-0 md:top-0" />
 
                 {/* Content wrapper - centered text */}
                 <div className="text-center">
