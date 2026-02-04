@@ -2,7 +2,7 @@ export const profileData = {
   name: "Shaik Musharaf",
   title: "Full-Stack Developer & Space Enthusiast",
   bio: "Exploring the digital universe through code, design, and innovation. Passionate about creating stellar user experiences.",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/assets/24012026Resume.pdf",
 };
 
 export const planets = [
