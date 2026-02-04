@@ -8,6 +8,8 @@ import Projects from "./pages/Projects";
 import Journey from "./pages/Journey";
 import Experience from "./pages/ExperienceSection";
 import Contact from "./pages/Contact";
+import Resume from "./pages/Resume";
+import NotFound from "./pages/NotFound";
 
 
 const routeNarration = {
@@ -34,6 +36,10 @@ const routeNarration = {
     "/contact": {
         planet: "contact",
         text: "Here are the best ways to contact me.",
+    },
+    "/resume": {
+        planet: "home",
+        text: "Here is my resume. You can open or download it.",
     },
 };
 
@@ -66,6 +72,8 @@ const AppRoutes = () => {
             <Route path="/journey" element={<Journey />} />
             <Route path="/experience" element={<Experience />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 };

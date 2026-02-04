@@ -25,10 +25,10 @@ export default function ExperienceItem({ data, index, onClick }) {
             variants={itemVariants}
             custom={index}
             onClick={onClick}
-            className="relative grid grid-cols-[auto_1fr] gap-5 md:gap-8 group"
+            className="relative grid grid-cols-[auto_1fr] gap-4 sm:gap-5 md:gap-8 group"
         >
             {/* Timeline - vertical line + dot */}
-            <div className="relative flex flex-col items-center pt-1.5">
+            <div className="relative flex flex-col items-center sm:pt-1.5">
                 {/* Glowing dot */}
                 <div className="relative z-10">
                     <div
@@ -63,7 +63,7 @@ export default function ExperienceItem({ data, index, onClick }) {
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 className={`
           relative bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/70 
-          backdrop-blur-md border border-slate-700/60 rounded-xl p-6 md:p-7 
+          backdrop-blur-md border border-slate-700/60 rounded-xl p-5 sm:p-6 md:p-7 
           shadow-xl shadow-black/40 hover:shadow-2xl hover:shadow-cyan-900/30 
           transition-all duration-300 group-hover:border-cyan-500/40
         `}
@@ -88,7 +88,7 @@ export default function ExperienceItem({ data, index, onClick }) {
                         </p>
                     </div>
 
-                    <div className="text-right whitespace-nowrap">
+                    <div className="text-left sm:text-right whitespace-nowrap">
                         <span className="text-sm md:text-base font-medium text-cyan-200/80 bg-cyan-950/40 px-3 py-1 rounded-full border border-cyan-800/30">
                             {data.duration}
                         </span>
