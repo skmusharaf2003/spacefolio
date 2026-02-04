@@ -10,6 +10,9 @@
     --color-accent: #e0e1dd;
     --color-space-dark: #000814;
     --color-space-blue: #001d3d;
+    --color-gradient-start: #60a5fa;
+    --color-gradient-mid: #a78bfa;
+    --color-gradient-end: #ec4899;
     --border-radius-sm: 0.375rem;
     --border-radius-md: 0.5rem;
     --border-radius-lg: 0.75rem;
@@ -193,6 +196,17 @@
   .planet-glow {
     filter: drop-shadow(0 0 20px currentColor)
       drop-shadow(0 0 40px currentColor);
+  }
+
+  .text-hero-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--color-gradient-start) 0%,
+      var(--color-gradient-mid) 50%,
+      var(--color-gradient-end) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .star-field {
