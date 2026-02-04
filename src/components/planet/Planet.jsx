@@ -72,7 +72,7 @@ const Planet = ({ planet, index, isDragging, isActive, onClick }) => {
         }
         const touchDuration = Date.now() - touchStartTime.current
         if (touchDuration < 800 && !isDragging) {
-            onClick(planet.id)
+            handleClick()
         }
     }
 
@@ -86,6 +86,7 @@ const Planet = ({ planet, index, isDragging, isActive, onClick }) => {
                     x: rect.left + rect.width / 2,
                     y: rect.top + rect.height / 2,
                 },
+                silent: false,
             });
 
         }
@@ -102,6 +103,7 @@ const Planet = ({ planet, index, isDragging, isActive, onClick }) => {
                     x: rect.left + rect.width / 2,
                     y: rect.top + rect.height / 2,
                 },
+                silent: true,
             });
         }
     }, [isActive]);

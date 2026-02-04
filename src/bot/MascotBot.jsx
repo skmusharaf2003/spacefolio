@@ -38,9 +38,9 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
         currentPage,
         lastInteractionTime,
         toggleGuide,
-        registerInteraction,
         requestSpeech,
-        clearActivePlanetPos
+        clearActivePlanetPos,
+        clearSpeech
     } = useMascot();
 
     /* ---------------- POSITIONING HANDLER ---------------- */
@@ -124,6 +124,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                 () => setMood("speaking"),
                 () => {
                     setMood("idle");
+                    clearSpeech();
                     // Clear target after speech ends and return to idle position
                     setTimeout(() => {
                         clearActivePlanetPos();
@@ -134,7 +135,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
         }, 300);
 
         return () => clearTimeout(t);
-    }, [speech, voiceEnabled, clearActivePlanetPos]);
+    }, [speech, voiceEnabled, clearActivePlanetPos, clearSpeech]);
 
     /* ---------------- VOICE TOGGLE ---------------- */
     useEffect(() => {
@@ -142,7 +143,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
             window.speechSynthesis.cancel();
             setMood("idle");
         }
-    }, [voiceEnabled]);
+    }, [voiceEnabled, clearSpeech]);
 
     const normalizeHint = (text) => {
         if (!text) return text;
@@ -234,80 +235,212 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
             <motion.div
                 ref={botRef}
                 animate={controls}
-                initial={{ left: window.innerWidth - 80, top: 16 }} // Approximate initial top-right
+                initial={{ left: window.innerWidth - 80, top: 16 }}
                 className="absolute z-50 pointer-events-auto"
-                // Removed drag props to disable user dragging
                 onClick={toggleGuide}
                 onAnimationComplete={calculatePositioning}
             >
-                {/* BODY */}
+                {/* BODY - Glassmorphic orb with gradient */}
                 <motion.div
-                    className="relative w-10 h-10 md:w-14 md:h-14 rounded-full
-        bg-gradient-to-br from-secondary to-secondary-light
-        shadow-lg flex items-center justify-center cursor-pointer"
+                    className="relative w-12 h-12 md:w-16 md:h-16 rounded-full
+        bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500
+        shadow-2xl flex items-center justify-center cursor-pointer
+        border border-white/30 backdrop-blur-sm"
+                    animate={{
+                        scale: mood === "speaking" ? [1, 1.08, 1] : 1,
+                    }}
+                    transition={{
+                        duration: 0.6,
+                        repeat: mood === "speaking" ? Infinity : 0,
+                        ease: "easeInOut",
+                    }}
                 >
-                    {/* FACE */}
-                    <div className="relative w-7 h-7 md:w-8 md:h-8 rounded-full bg-accent/95">
+                    {/* Enhanced ambient glow */}
+                    <motion.div
+                        className="absolute -inset-6 rounded-full bg-purple-400/20 blur-2xl"
+                        animate={{
+                            opacity: mood === "speaking" ? [0.4, 0.8, 0.4] : 0.4,
+                            scale: mood === "speaking" ? [1, 1.3, 1] : 1,
+                        }}
+                        transition={{
+                            duration: 1,
+                            repeat: mood === "speaking" ? Infinity : 0,
+                        }}
+                    />
 
-                        {/* EYES */}
-                        <div className="absolute top-[38%] left-1/2 -translate-x-1/2 flex gap-1">
-                            <motion.span
-                                className="w-1.5 h-1.5 bg-primary rounded-full"
+                    {/* Dual rotating rings */}
+                    <motion.div
+                        className="absolute inset-0 rounded-full border border-indigo-300/40"
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            opacity: [0.6, 0, 0.6],
+                        }}
+                        transition={{
+                            duration: 2.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                        }}
+                    />
+
+                    <motion.div
+                        className="absolute inset-0 rounded-full border border-pink-300/40"
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            opacity: [0.6, 0, 0.6],
+                        }}
+                        transition={{
+                            duration: 2.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: 1.25,
+                        }}
+                    />
+
+                    {/* FACE - Clean white surface with subtle gradient */}
+                    <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full 
+                        bg-gradient-to-br from-white to-gray-50 
+                        shadow-lg border border-gray-100/50">
+
+                        {/* EYES - Modern rounded design */}
+                        <div className="absolute top-[32%] left-1/2 -translate-x-1/2 flex gap-2">
+                            <motion.div
+                                className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full 
+                                    bg-gradient-to-br from-slate-700 to-slate-900
+                                    shadow-sm"
                                 animate={
                                     mood === "speaking"
-                                        ? { scaleY: 0.6 }
+                                        ? { scaleY: 0.5, scaleX: 1.1 }
                                         : mood === "thinking"
-                                            ? { y: [-1, 1, -1] }
+                                            ? {
+                                                y: [-1.5, 1.5, -1.5],
+                                                rotate: [-5, 5, -5]
+                                            }
                                             : { scaleY: [1, 0.1, 1] }
                                 }
                                 transition={
                                     mood === "idle"
-                                        ? { duration: 4, repeat: Infinity, repeatDelay: 3 }
-                                        : { duration: 0.6, repeat: Infinity }
+                                        ? { duration: 4, repeat: Infinity, repeatDelay: 3.5 }
+                                        : { duration: 0.7, repeat: Infinity, ease: "easeInOut" }
                                 }
                             />
-                            <motion.span
-                                className="w-1.5 h-1.5 bg-primary rounded-full"
+                            <motion.div
+                                className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full 
+                                    bg-gradient-to-br from-slate-700 to-slate-900
+                                    shadow-sm"
                                 animate={
                                     mood === "speaking"
-                                        ? { scaleY: 0.6 }
+                                        ? { scaleY: 0.5, scaleX: 1.1 }
                                         : mood === "thinking"
-                                            ? { y: [1, -1, 1] }
+                                            ? {
+                                                y: [1.5, -1.5, 1.5],
+                                                rotate: [5, -5, 5]
+                                            }
                                             : { scaleY: [1, 0.1, 1] }
                                 }
                                 transition={
                                     mood === "idle"
-                                        ? { duration: 4, repeat: Infinity, repeatDelay: 3 }
-                                        : { duration: 0.6, repeat: Infinity }
+                                        ? { duration: 4, repeat: Infinity, repeatDelay: 3.5 }
+                                        : { duration: 0.7, repeat: Infinity, ease: "easeInOut" }
                                 }
                             />
                         </div>
 
-                        {/* MOUTH */}
+                        {/* Eye shine highlights */}
+                        <div className="absolute top-[30%] left-1/2 -translate-x-1/2 flex gap-2">
+                            <div className="w-0.5 h-0.5 md:w-1 md:h-1 rounded-full bg-white/80 -ml-[3px]" />
+                            <div className="w-0.5 h-0.5 md:w-1 md:h-1 rounded-full bg-white/80 ml-[3px]" />
+                        </div>
+
+                        {/* MOUTH - Dynamic speaking animation */}
                         <motion.div
-                            className="absolute top-[68%] left-1/3 -translate-x-1/3
-            w-2.5 h-[2px] bg-primary/70 rounded-full origin-center"
+                            className="absolute top-[68%] left-1/3 -translate-x-1/3"
                             animate={
                                 mood === "speaking"
                                     ? {
-                                        scaleY: [1, 2.2, 0.9, 2, 1],
-                                        scaleX: [1, 1.12, 0.96, 1.08, 1],
+                                        scaleY: [1, 2.8, 1, 2.5, 1],
+                                        scaleX: [1, 1.2, 0.9, 1.15, 1],
                                     }
                                     : mood === "thinking"
-                                        ? { scaleX: 0.8 }
-                                        : { scaleX: 1, scaleY: 1 }
+                                        ? {
+                                            scaleX: 0.6,
+                                            scaleY: 0.7,
+                                            x: [0, -1, 1, 0]
+                                        }
+                                        : { scaleX: 1.3, scaleY: 1 }
                             }
                             transition={{
-                                duration: 0.5,
-                                repeat: mood === "speaking" ? Infinity : 0,
+                                duration: mood === "speaking" ? 0.35 : mood === "thinking" ? 0.8 : 0,
+                                repeat: mood !== "idle" ? Infinity : 0,
                                 ease: "easeInOut",
                             }}
-                        />
+                        >
+                            <div className="w-2 md:w-3 h-[2px] 
+                                bg-gradient-to-r from-slate-600 via-slate-700 to-slate-600 
+                                rounded-full shadow-sm" />
+                        </motion.div>
+
+                        {/* Subtle cheek blush when speaking */}
+                        {mood === "speaking" && (
+                            <>
+                                <motion.div
+                                    className="absolute top-[52%] left-[12%] w-2 h-1.5 
+                                        bg-rose-400/30 rounded-full blur-[2px]"
+                                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                                    transition={{ duration: 0.9, repeat: Infinity }}
+                                />
+                                <motion.div
+                                    className="absolute top-[52%] right-[12%] w-2 h-1.5 
+                                        bg-rose-400/30 rounded-full blur-[2px]"
+                                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                                    transition={{ duration: 0.9, repeat: Infinity }}
+                                />
+                            </>
+                        )}
+
+                        {/* Thinking indicator - small dots */}
+                        {mood === "thinking" && (
+                            <motion.div
+                                className="absolute top-[20%] right-[8%] flex gap-[2px]"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                            >
+                                {[0, 1, 2].map((i) => (
+                                    <motion.div
+                                        key={i}
+                                        className="w-[3px] h-[3px] rounded-full bg-indigo-400"
+                                        animate={{
+                                            y: [0, -3, 0],
+                                            opacity: [0.4, 1, 0.4],
+                                        }}
+                                        transition={{
+                                            duration: 0.6,
+                                            repeat: Infinity,
+                                            delay: i * 0.15,
+                                        }}
+                                    />
+                                ))}
+                            </motion.div>
+                        )}
                     </div>
 
-                    {/* GLOW */}
-                    <div className="absolute -inset-3 rounded-full bg-secondary/25 blur-lg" />
+                    {/* Active state indicator */}
+                    {mood === "speaking" && (
+                        <motion.div
+                            className="absolute -bottom-1 left-1/2 -translate-x-1/2
+                                w-6 h-1 rounded-full bg-gradient-to-r from-transparent via-white/60 to-transparent"
+                            animate={{
+                                scaleX: [0.5, 1, 0.5],
+                                opacity: [0.3, 0.8, 0.3],
+                            }}
+                            transition={{
+                                duration: 0.8,
+                                repeat: Infinity,
+                            }}
+                        />
+                    )}
                 </motion.div>
+
+                {/* Hint tooltip */}
                 {hint && (
                     <motion.div
                         initial={{ opacity: 0, y: vertical === 'bottom' ? 6 : -6 }}
@@ -316,23 +449,23 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                         className={`
       absolute ${vertical === 'bottom' ? 'top-full mt-2' : 'bottom-full mb-2'}
       ${direction === 'left' ? 'right-0' : 'left-0'}
-      bg-space-dark/80 backdrop-blur-md
-      border border-accent/20
-      rounded-md px-3 py-2
-      text-xs text-accent/80
+      bg-slate-900/95 backdrop-blur-md
+      border border-indigo-500/30
+      rounded-lg px-3 py-2
+      text-xs text-indigo-100/90
       pointer-events-none
-
       min-w-[180px]
       max-w-[300px]
       whitespace-normal
       leading-relaxed
-      shadow-md
+      shadow-xl
     `}
                     >
                         {hint}
                     </motion.div>
                 )}
 
+                {/* Guide menu */}
                 {guideOpen && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -341,8 +474,8 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                         className={`absolute ${vertical === 'bottom' ? 'top-full mt-3' : 'bottom-full mb-3'} 
                ${direction === 'left' ? 'right-0' : 'left-0'}
                w-60
-               bg-space-dark/90 backdrop-blur-md
-               border border-accent/30 rounded-xl p-3 space-y-2 shadow-lg`}
+               bg-slate-900/95 backdrop-blur-md
+               border border-indigo-400/30 rounded-xl p-3 space-y-2 shadow-2xl`}
                     >
                         {navigationGuide[activePlanet]?.length > 0 ? (
                             navigationGuide[activePlanet]
@@ -355,9 +488,10 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                                             navigate(item.route);
                                             setGuideOpen(false);
                                         }}
-                                        className="w-full text-left text-sm text-accent
-                 hover:bg-accent/10 rounded-lg px-3 py-2
-                 border border-transparent hover:border-accent/20 transition"
+                                        className="w-full text-left text-sm text-indigo-100
+                 hover:bg-indigo-500/20 rounded-lg px-3 py-2
+                 border border-transparent hover:border-indigo-400/30 
+                 transition-all duration-200"
                                     >
                                         {item.label}
                                     </button>
@@ -367,17 +501,13 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: [0.4, 1, 0.4] }}
                                 transition={{ duration: 2, repeat: Infinity }}
-                                className="text-xs text-accent/60 px-2 py-2 italic"
+                                className="text-xs text-indigo-300/60 px-2 py-2 italic"
                             >
                                 Click on a planet to see options
                             </motion.div>
-
                         )}
-
-
                     </motion.div>
                 )}
-
             </motion.div>
         </div>
     );

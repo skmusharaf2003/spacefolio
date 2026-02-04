@@ -33,6 +33,7 @@ export const MascotProvider = ({ children }) => {
 
     // speech EVENT (this is the key fix)
     const [speech, setSpeech] = useState(null);
+    const lastSpokenAtRef = useRef(0);
 
     // planet tracking (UI / movement only)
     const [activePlanet, setActivePlanet] = useState(null);
@@ -137,7 +138,10 @@ export const MascotProvider = ({ children }) => {
      */
     const requestSpeech = (text, source = "manual") => {
         if (!text) return;
+        if (isSpeaking) return;
+        const now = Date.now();
         if (lastSpokenTextRef.current === text) return;
+        if (now - lastSpokenAtRef.current < 800) return;
         const allowDuringInteraction = new Set([
             "action",
             "planet",
@@ -153,11 +157,18 @@ export const MascotProvider = ({ children }) => {
 
         // new object every time → guarantees re-trigger
         setSpeech({
+            id: now,
             text,
             source,
         });
         lastSpokenTextRef.current = text;
+        lastSpokenAtRef.current = now;
     };
+
+    const clearSpeech = () => {
+        setSpeech(null);
+    };
+
 
     const requestPageSpeech = (page, text) => {
         if (!page || spokenPagesRef.current.has(page)) return;
@@ -190,6 +201,7 @@ export const MascotProvider = ({ children }) => {
                 registerInteraction,
                 // speech control
                 speech,
+                clearSpeech,
                 requestSpeech,
                 speak,
                 requestGuide,

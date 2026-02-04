@@ -12,6 +12,7 @@ const Bot = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [messages, setMessages] = useState([])
     const [actions, setActions] = useState([])
+    const [mood, setMood] = useState('idle') // Added mood state
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -21,6 +22,17 @@ const Bot = () => {
         // Scroll to bottom whenever messages change
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
+
+    // Mood cycling effect - changes icon periodically
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (mood === 'idle' && !isOpen) {
+                setMood('thinking');
+                setTimeout(() => setMood('idle'), 2000);
+            }
+        }, 8000);
+        return () => clearInterval(interval);
+    }, [mood, isOpen]);
 
     const mainProject = useMemo(
         () => projects.find((project) => project.type === 'main'),
@@ -36,11 +48,14 @@ const Bot = () => {
     )
 
     const pushBotMessage = (text, nextActions = []) => {
+        setMood('speaking') // Set mood to speaking when bot responds
         setMessages((prev) => [
             ...prev,
             { id: Date.now() + Math.random(), text, sender: 'bot' }
         ])
         setActions(nextActions)
+        // Return to idle after speaking
+        setTimeout(() => setMood('idle'), 1500)
     }
 
     const pushUserMessage = (text) => {
@@ -166,7 +181,7 @@ const Bot = () => {
                 ? `You can see ${skill.name} in projects like ${relatedProjects
                     .map((project) => project.title)
                     .join(" and ")}.`
-                : "That’s better explored directly on the page."
+                : "That's better explored directly on the page."
         pushBotMessage(
             message,
             [
@@ -234,7 +249,7 @@ const Bot = () => {
         const start = pageIndex * 2
         const slice = skillsData.learningTrajectory.slice(start, start + 2)
         pushBotMessage(
-            "Here are two items I’m learning.",
+            "Here are two items I'm learning.",
             [
                 ...slice.map((item) =>
                     action(item.name, () => showLearningDetail(item))
@@ -260,7 +275,7 @@ const Bot = () => {
 
     const showProjectsOverview = () => {
         pushBotMessage(
-            "I’ve worked on a mix of full-stack, frontend, and system-driven projects.",
+            "I've worked on a mix of full-stack, frontend, and system-driven projects.",
             [
                 action("Main Project", () => showMainProject()),
                 action("Major Projects", () => showMajorProjects(0)),
@@ -274,7 +289,7 @@ const Bot = () => {
     const showMainProject = () => {
         if (!mainProject) {
             pushBotMessage(
-                "That’s better explored directly on the page.",
+                "That's better explored directly on the page.",
                 [
                     action("Go to Projects Page", () => navigate("/projects")),
                     action("Main Menu", () => showMainMenu()),
@@ -360,7 +375,7 @@ const Bot = () => {
         const techList = project.tech.slice(2, 4)
         const message = techList.length
             ? `More stack items: ${techList.join(" and ")}.`
-            : "That’s better explored directly on the page."
+            : "That's better explored directly on the page."
         pushBotMessage(
             message,
             [
@@ -399,7 +414,7 @@ const Bot = () => {
 
     const showProjectLearned = (project) => {
         pushBotMessage(
-            "That’s better explored directly on the page.",
+            "That's better explored directly on the page.",
             [
                 action("View Project Page", () => navigate("/projects")),
                 action("Back", () => showSingleProject(project)),
@@ -425,7 +440,7 @@ const Bot = () => {
         const phase = journeyPhases.find((item) => item.id === phaseId)
         if (!phase) {
             pushBotMessage(
-                "That’s better explored directly on the page.",
+                "That's better explored directly on the page.",
                 [
                     action("Go to Journey Page", () => navigate("/journey")),
                     action("Main Menu", () => showMainMenu()),
@@ -449,7 +464,7 @@ const Bot = () => {
 
     const showExperienceOverview = () => {
         pushBotMessage(
-            "I’ve worked across full-time roles, freelance AI training, and teaching roles.",
+            "I've worked across full-time roles, freelance AI training, and teaching roles.",
             [
                 action("Full-Time Experience", () => showExperienceCategory("full-time", 0)),
                 action("AI / Freelance Work", () => showExperienceCategory("freelance", 0)),
@@ -480,7 +495,7 @@ const Bot = () => {
         const role = roles[index]
         if (!role) {
             pushBotMessage(
-                "That’s better explored directly on the page.",
+                "That's better explored directly on the page.",
                 [
                     action("Go to Experience Page", () => navigate("/experience")),
                     action("Back", () => showExperienceOverview()),
@@ -489,7 +504,7 @@ const Bot = () => {
             return
         }
         pushBotMessage(
-            "Here’s one role that shaped my experience.",
+            "Here's one role that shaped my experience.",
             [
                 action(`${role.role} – ${role.company}`, () => showExperienceDetail(category, index)),
                 ...(index + 1 < roles.length
@@ -534,7 +549,7 @@ const Bot = () => {
         const channel = contactData.primaryActions.find((item) => item.id === id)
         if (!channel) {
             pushBotMessage(
-                "That’s better explored directly on the page.",
+                "That's better explored directly on the page.",
                 [
                     action("Open Contact Page", () => navigate("/contact")),
                     action("Main Menu", () => showMainMenu()),
@@ -554,7 +569,7 @@ const Bot = () => {
 
     const showNotHomeFallback = () => {
         pushBotMessage(
-            "That’s better explored directly on the page.",
+            "That's better explored directly on the page.",
             [
                 action("Go to Relevant Page", () => navigate(location.pathname)),
                 action("Main Menu", () => showMainMenu()),
@@ -576,6 +591,68 @@ const Bot = () => {
         nextAction.onSelect()
     }
 
+    // Function to get the appropriate icon based on mood
+    const getMoodIcon = () => {
+        if (isOpen) {
+            return <FiX size={24} />
+        }
+
+        // Different icons based on mood when closed
+        switch (mood) {
+            case 'speaking':
+                return (
+                    <motion.div
+                        key="speaking"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <FiMessageCircle size={24} />
+                    </motion.div>
+                )
+            case 'thinking':
+                return (
+                    <motion.div
+                        key="thinking"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex gap-1"
+                    >
+                        {[0, 1, 2].map((i) => (
+                            <motion.div
+                                key={i}
+                                className="w-1.5 h-1.5 bg-accent rounded-full"
+                                animate={{
+                                    y: [0, -4, 0],
+                                    opacity: [0.4, 1, 0.4],
+                                }}
+                                transition={{
+                                    duration: 0.6,
+                                    repeat: Infinity,
+                                    delay: i * 0.15,
+                                }}
+                            />
+                        ))}
+                    </motion.div>
+                )
+            default:
+                return (
+                    <motion.div
+                        key="idle"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <FiMessageCircle size={24} />
+                    </motion.div>
+                )
+        }
+    }
+
     return (
         <>
             <motion.button
@@ -588,27 +665,7 @@ const Bot = () => {
                 className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-gradient-to-br from-secondary to-secondary-light rounded-full shadow-2xl flex items-center justify-center text-accent hover:shadow-accent/50 transition-shadow duration-300"
             >
                 <AnimatePresence mode="wait">
-                    {isOpen ? (
-                        <motion.div
-                            key="close"
-                            initial={{ rotate: -90, opacity: 0 }}
-                            animate={{ rotate: 0, opacity: 1 }}
-                            exit={{ rotate: 90, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <FiX size={24} />
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="open"
-                            initial={{ rotate: -90, opacity: 0 }}
-                            animate={{ rotate: 0, opacity: 1 }}
-                            exit={{ rotate: 90, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <FiMessageCircle size={24} />
-                        </motion.div>
-                    )}
+                    {getMoodIcon()}
                 </AnimatePresence>
             </motion.button>
 

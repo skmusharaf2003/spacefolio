@@ -1,13 +1,33 @@
 export const skillsData = {
   coreCapabilities: [
     {
+      id: "javascript",
+      name: "JavaScript",
+      confidence: "high",
+      role: "Logic & interaction",
+      summary: "Core language powering interactive web apps",
+      usage: ["ES6+", "DOM manipulation", "Async logic"],
+      ecosystem: ["Browser APIs", "DOM Manipulations"],
+      icon: "javascript",
+    },
+    {
+      id: "java",
+      name: "Java",
+      confidence: "medium",
+      role: "Problem solving & OOP",
+      summary: "Object-oriented programming and DSA",
+      usage: ["DSA", "OOP principles", "Threading"],
+      ecosystem: [],
+      icon: "java",
+    },
+    {
       id: "html",
       name: "HTML",
       confidence: "high",
       role: "Structure & semantics",
       summary: "Building semantic, accessible web structures",
       usage: ["Forms", "SEO-friendly markup", "Accessibility"],
-      ecosystem: ["CSS"],
+      ecosystem: ["CSS", "Bootstrap"],
       icon: "html",
     },
     {
@@ -17,18 +37,8 @@ export const skillsData = {
       role: "Layout & visual design",
       summary: "Responsive layouts and modern UI styling",
       usage: ["Flexbox", "Grid", "Tailwind"],
-      ecosystem: ["Tailwind CSS"],
+      ecosystem: ["Tailwind CSS", "Bootstrap", "HTML"],
       icon: "css",
-    },
-    {
-      id: "javascript",
-      name: "JavaScript",
-      confidence: "high",
-      role: "Logic & interaction",
-      summary: "Core language powering interactive web apps",
-      usage: ["ES6+", "DOM manipulation", "Async logic"],
-      ecosystem: ["Browser APIs"],
-      icon: "javascript",
     },
     {
       id: "react",
@@ -47,18 +57,8 @@ export const skillsData = {
       role: "Backend services",
       summary: "Server-side logic and API handling",
       usage: ["REST APIs", "Middleware"],
-      ecosystem: ["Express.js"],
+      ecosystem: ["Express.js", "JavaScript"],
       icon: "node",
-    },
-    {
-      id: "java",
-      name: "Java",
-      confidence: "medium",
-      role: "Problem solving & OOP",
-      summary: "Object-oriented programming and DSA",
-      usage: ["DSA", "OOP principles"],
-      ecosystem: [],
-      icon: "java",
     },
     {
       id: "express",
@@ -100,6 +100,6 @@ export const skillsData = {
 
   certificates: {
     label: "View Certifications",
-    link: "https://drive.google.com/your-certificates-link",
+    link: "https://drive.google.com/drive/folders/1V1jWDM8o8TCy_ZjU_VC0Knf0IDZ9Rncw?usp=sharing",
   },
 };

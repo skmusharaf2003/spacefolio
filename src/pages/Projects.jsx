@@ -14,8 +14,8 @@ const Projects = () => {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        requestSpeech,
-        registerInteraction
+        registerInteraction,
+        requestSpeech
     } = useMascot();
 
     const handleSelectProject = (project, e) => {
@@ -34,12 +34,9 @@ const Projects = () => {
         });
 
         requestSpeech(
-            project.botText || "This project demonstrates applied development skills.",
-            "action"
+            project.botText || project.tagline || "This project demonstrates applied development skills.",
+            "projects"
         );
-
-
-        requestSpeech(project.botText || project.tagline, "projects");
 
     };
 
