@@ -77,7 +77,7 @@ const Journey = () => {
                     >
                         <FiStar className="text-accent text-3xl md:text-4xl" />
                     </motion.div>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 cosmic-text-gradient">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 text-hero-gradient">
                         My Journey
                     </h1>
                     <p className="text-lg md:text-xl text-accent/80 max-w-2xl mx-auto font-body">

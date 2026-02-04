@@ -30,7 +30,7 @@ export default function ExperienceSection() {
     };
 
     return (
-        <section className="relative py-24 max-w-6xl mx-auto px-4">
+        <section className="relative py-16 md:py-24 max-w-6xl mx-auto px-4">
             {/* Header */}
             <div style={{
                 position: 'relative',
@@ -42,13 +42,11 @@ export default function ExperienceSection() {
                     initial={{ opacity: 0, y: -50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: 'easeOut' }}
+                    className="text-hero-gradient"
                     style={{
                         fontSize: 'clamp(40px, 8vw, 96px)',
                         fontWeight: 900,
                         margin: 0,
-                        background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #ec4899 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
                         letterSpacing: '-0.03em',
                         lineHeight: 1,
                     }}
