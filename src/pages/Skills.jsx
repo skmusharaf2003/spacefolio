@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { skillsData } from "../data/skillsContent";
 import CoreSkillsWave from "../components/skills/OrbitCoreSkills";
 import SupportingSkillsWave from "../components/skills/SupportingSkillsWave";
+import BackButton from "../components/BackButton";
 
 // Enhanced Starfield with depth
 const EnhancedStarField = () => {
@@ -252,6 +253,7 @@ const SpacefolioSkills = () => {
             <EnhancedStarField />
 
             <div className="relative z-10 px-4 py-16 max-w-7xl mx-auto">
+                <BackButton className="mb-8" />
                 {/* Header */}
                 <div style={{
                     position: 'relative',
