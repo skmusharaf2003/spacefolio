@@ -3,6 +3,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import Planet from "../planet/Planet";
 import { planets, profileData } from "../../data/mockData";
 import { useMascot } from "../../context/MascotContext";
+import profileImage from "../../assets/a606302e-a695-4472-860a-6fdf53e0f254.png";
 
 const SolarSystem = ({ onPlanetFocus }) => {
     const containerRef = useRef(null);
@@ -13,6 +14,7 @@ const SolarSystem = ({ onPlanetFocus }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [activePlanetId, setActivePlanetId] = useState(null);
     const [bounds, setBounds] = useState({ left: 0, right: 0 });
+    const [showResumePrompt, setShowResumePrompt] = useState(false);
 
     const dragX = useMotionValue(0);
 
@@ -99,6 +101,18 @@ const SolarSystem = ({ onPlanetFocus }) => {
         });
     }, []);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setShowResumePrompt((prev) => !prev);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleSunClick = () => {
+        window.open(profileData.resumeUrl, "_blank", "noopener,noreferrer");
+    };
+
     return (
         <div className="relative w-full">
             {/* Solar System Container */}
@@ -125,13 +139,31 @@ const SolarSystem = ({ onPlanetFocus }) => {
                         style={{ scale: sunScale }}
                         className="relative flex-shrink-0 flex flex-col items-center"
                     >
-                        <div className="relative w-48 h-48 md:w-64 md:h-64 mb-8">
+                        <button
+                            type="button"
+                            onClick={handleSunClick}
+                            className="relative w-48 h-48 md:w-64 md:h-64 mb-8 focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-200/70 rounded-full"
+                            aria-label="Open resume"
+                        >
                             <motion.div
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
                                 className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-300 via-orange-500 to-red-600 planet-glow"
                             />
-                        </div>
+                            <div className="absolute inset-3 rounded-full bg-primary-dark/30 backdrop-blur-sm flex items-center justify-center border border-yellow-200/40 text-center">
+                                {showResumePrompt ? (
+                                    <span className="px-4 text-sm md:text-base font-semibold text-yellow-100 tracking-wide leading-tight">
+                                        Click here to see my resume
+                                    </span>
+                                ) : (
+                                    <img
+                                        src={profileImage}
+                                        alt={`${profileData.name} profile`}
+                                        className="w-full h-full rounded-full object-cover"
+                                    />
+                                )}
+                            </div>
+                        </button>
 
                         <div className="text-center bg-primary-light/80 backdrop-blur-sm rounded-lg p-6 border border-secondary max-w-xs">
                             <h3 className="text-2xl font-heading font-bold text-accent">
