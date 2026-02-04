@@ -14,8 +14,8 @@ const Projects = () => {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        triggerSpeechIntent,
-        registerInteraction
+        registerInteraction,
+        requestSpeech
     } = useMascot();
 
     const handleSelectProject = (project, e) => {

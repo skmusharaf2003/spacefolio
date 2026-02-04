@@ -26,20 +26,20 @@ const JourneyPhase = ({
     const {
         setActivePlanet,
         setActivePlanetPos,
-        triggerSpeechIntent,
+        requestSpeech,
         registerInteraction
     } = useMascot();
 
     useEffect(() => {
-        if (!isExpanded) return;
-        setActivePlanet("journey");
-        registerInteraction("journey");
-        requestSpeech(
-            phase.botText ||
-            `This phase represents ${phase.phase.title}. ${phase.preview.summary}`,
-            "journey"
-        );
-    }, [isExpanded]);
+        if (inView) {
+            setActivePlanet("journey");
+            registerInteraction("scroll");
+            requestSpeech(
+                phase.botText ||
+                `This phase represents ${phase.phase.title}. ${phase.preview.summary}`, "journey"
+            );
+        }
+    }, [inView]);
 
 
     /* ---------------- STATUS LOGIC ---------------- */

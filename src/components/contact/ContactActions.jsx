@@ -31,7 +31,8 @@ const ContactActions = ({ contactData }) => {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        registerInteraction
+        registerInteraction,
+        requestSpeech
     } = useMascot();
 
     const handleContactHover = (item, e) => {
@@ -43,7 +44,7 @@ const ContactActions = ({ contactData }) => {
             x: rect.left + rect.width / 2,
             y: rect.top,
         });
-
+        requestSpeech(`You can reach me via ${item.label}.`, "contact");
     };
 
     return (

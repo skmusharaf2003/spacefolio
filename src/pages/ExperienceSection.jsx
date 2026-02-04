@@ -8,8 +8,8 @@ export default function ExperienceSection() {
     const {
         setActivePlanet,
         setActivePlanetPos,
-        triggerSpeechIntent,
-        registerInteraction
+        registerInteraction,
+        requestSpeech
     } = useMascot();
 
     const handleExperienceSelect = (exp, e) => {
