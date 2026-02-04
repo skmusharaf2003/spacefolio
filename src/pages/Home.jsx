@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import StarsBackground from "../components/StarBackground"
 import SolarSystem from '../components/space/SolarSystem'
 import Bot from '../bot/Bot'
+import BackButton from "../components/BackButton"
 
 const Home = ({ onPlanetFocus }) => {
     const [scrollY, setScrollY] = useState(0)
@@ -42,6 +43,7 @@ const Home = ({ onPlanetFocus }) => {
                 </header>
 
                 <main className="pt-20">
+                    <BackButton />
                     <SolarSystem onPlanetFocus={onPlanetFocus} />
                 </main>
 

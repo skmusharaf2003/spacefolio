@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/projectsContent';
 import { useMascot } from "../context/MascotContext";
+import BackButton from "../components/BackButton";
 
 const Projects = () => {
     const [selectedProject, setSelectedProject] = useState(null);
@@ -120,6 +121,7 @@ const Projects = () => {
 
             {/* Foreground content – unchanged from your original */}
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+                <BackButton />
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}

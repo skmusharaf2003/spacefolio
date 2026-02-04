@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import BackButton from "../components/BackButton";
 
 const NotFound = () => {
     return (
@@ -18,12 +18,7 @@ const NotFound = () => {
                     to the solar system to continue exploring.
                 </p>
                 <div className="mt-8">
-                    <Link
-                        to="/"
-                        className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold shadow-lg hover:opacity-90 transition"
-                    >
-                        Back to Home
-                    </Link>
+                    <BackButton noteClassName="text-center" />
                 </div>
             </div>
         </section>

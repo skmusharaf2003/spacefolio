@@ -2,6 +2,7 @@ import { experienceData } from "../data/experienceData";
 import ExperienceItem from "../components/experience/ExperienceItem";
 import { motion } from "framer-motion";
 import { useMascot } from "../context/MascotContext";
+import BackButton from "../components/BackButton";
 
 export default function ExperienceSection() {
 
@@ -31,6 +32,7 @@ export default function ExperienceSection() {
 
     return (
         <section className="relative py-16 md:py-24 max-w-6xl mx-auto px-4">
+            <BackButton />
             {/* Header */}
             <div style={{
                 position: 'relative',

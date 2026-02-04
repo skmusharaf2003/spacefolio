@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ContactActions from "../components/contact/ContactActions";
 import ContactForm from "../components/contact/ContactForm";
 import { contactData } from "../data/contactData";
+import BackButton from "../components/BackButton";
 
 const Contact = () => {
     const [showForm, setShowForm] = useState(false);
@@ -18,6 +19,7 @@ const Contact = () => {
             </div>
 
             <div className="relative z-10 w-full max-w-4xl space-y-10">
+                <BackButton />
 
 
                 {/* Contact Actions */}
