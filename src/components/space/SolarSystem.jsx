@@ -8,6 +8,7 @@ import profileImage from "../../assets/a606302e-a695-4472-860a-6fdf53e0f254.png"
 const SolarSystem = ({ onPlanetFocus }) => {
     const containerRef = useRef(null);
     const trackRef = useRef(null);
+    const navigate = useNavigate();
 
     const { setActivePlanet, setActivePlanetPos, requestSpeech, registerInteraction } = useMascot();
 
