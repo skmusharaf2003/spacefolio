@@ -245,7 +245,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
                 {/* BODY - Glassmorphic orb with gradient */}
                 <motion.div
                     className="relative w-12 h-12 md:w-16 md:h-16 rounded-full
-        bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500
+        bg-gradient-to-br from-indigo-700 via-gray-500 to-ingido-700
         shadow-2xl flex items-center justify-center cursor-pointer
         border border-white/30 backdrop-blur-sm"
                     animate={{

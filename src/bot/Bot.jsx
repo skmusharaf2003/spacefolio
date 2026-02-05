@@ -12,7 +12,7 @@ const Bot = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [messages, setMessages] = useState([])
     const [actions, setActions] = useState([])
-    const [mood, setMood] = useState('idle') // Added mood state
+    const [mood, setMood] = useState('idle')
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -48,13 +48,12 @@ const Bot = () => {
     )
 
     const pushBotMessage = (text, nextActions = []) => {
-        setMood('speaking') // Set mood to speaking when bot responds
+        setMood('speaking')
         setMessages((prev) => [
             ...prev,
             { id: Date.now() + Math.random(), text, sender: 'bot' }
         ])
         setActions(nextActions)
-        // Return to idle after speaking
         setTimeout(() => setMood('idle'), 1500)
     }
 
@@ -624,7 +623,7 @@ const Bot = () => {
                         {[0, 1, 2].map((i) => (
                             <motion.div
                                 key={i}
-                                className="w-1.5 h-1.5 bg-accent rounded-full"
+                                className="w-1.5 h-1.5 bg-white rounded-full"
                                 animate={{
                                     y: [0, -4, 0],
                                     opacity: [0.4, 1, 0.4],
@@ -659,10 +658,11 @@ const Bot = () => {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 2, duration: 0.5 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-full shadow-2xl flex items-center justify-center text-accent hover:shadow-accent/50 transition-shadow duration-300"
+                className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-gradient-to-br from-gray-700 via-gray-500 to-gray-700 rounded-full shadow-2xl flex items-center justify-center text-white hover:shadow-indigo-500/30 transition-all duration-300
+"
             >
                 <AnimatePresence mode="wait">
                     {getMoodIcon()}
@@ -676,9 +676,10 @@ const Bot = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed bottom-28 right-8 z-50 w-80 md:w-96 bg-primary-light/95 backdrop-blur-md rounded-2xl shadow-2xl border border-secondary overflow-hidden"
+                        className="fixed bottom-28 right-8 z-50 w-80 md:w-96 h-[550px] bg-primary-light/95 backdrop-blur-md rounded-2xl shadow-2xl border border-secondary overflow-hidden flex flex-col"
                     >
-                        <div className="bg-gradient-to-r from-secondary to-secondary-light p-4">
+                        {/* Header - Fixed */}
+                        <div className="bg-gradient-to-r from-secondary to-secondary-light p-4 flex-shrink-0">
                             <h3 className="text-lg font-heading font-bold text-accent flex items-center gap-2">
                                 <span className="inline-block w-3 h-3 bg-green-400 rounded-full animate-pulse" />
                                 Space Guide Bot
@@ -686,7 +687,8 @@ const Bot = () => {
                             <p className="text-accent/80 text-xs mt-1">Here to help you navigate</p>
                         </div>
 
-                        <div className="p-4 max-h-80 overflow-y-auto space-y-3">
+                        {/* Messages Area - Scrollable with fixed height */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
                             {messages.map((message) => (
                                 <motion.div
                                     key={message.id}
@@ -703,21 +705,22 @@ const Bot = () => {
                                     >
                                         <p className="text-sm">{message.text}</p>
                                     </div>
-                                    <div ref={messagesEndRef} />
                                 </motion.div>
                             ))}
+                            <div ref={messagesEndRef} />
                         </div>
 
-                        <div className="p-4 border-t border-secondary bg-primary/50">
+                        {/* Actions Area - Fixed at bottom with max height and scroll */}
+                        <div className="flex-shrink-0 p-4 border-t border-secondary bg-primary/50 max-h-[200px] overflow-y-auto">
                             <p className="text-secondary-light text-xs mb-3">Choose an action:</p>
                             <div className="grid grid-cols-1 gap-2">
                                 {actions.map((item) => (
                                     <motion.button
                                         key={item.id}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
                                         onClick={() => handleActionClick(item)}
-                                        className="text-xs bg-secondary/50 hover:bg-secondary text-accent px-3 py-2 rounded-lg transition-colors duration-300 border border-secondary-light text-left"
+                                        className="text-xs bg-secondary/50 hover:bg-secondary/70 text-accent px-3 py-2 rounded-lg transition-all duration-200 border border-secondary-light text-left"
                                     >
                                         {item.label}
                                     </motion.button>

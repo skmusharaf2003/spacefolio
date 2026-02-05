@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Planet from "../planet/Planet";
 import { planets, profileData } from "../../data/mockData";
 import { useMascot } from "../../context/MascotContext";
-import profileImage from "../../assets/NewProfileBG.png";
+import profileImage from "./NewProfileBG.png";
 
 
 const SolarSystem = ({ onPlanetFocus }) => {
