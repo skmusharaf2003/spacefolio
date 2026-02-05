@@ -34,7 +34,10 @@ const Resume = () => {
             <div className="relative z-10 max-w-5xl mx-auto">
 
                 {/* Back Button - Now in document flow on mobile, absolute on desktop */}
-                <BackButton className="mb-6 md:mb-0 md:absolute md:left-0 md:top-0" />
+                <BackButton
+                    className="absolute top-4 left-4 z-20"   // z-20 = above other content
+                    noteText=""   // ← remove note if it's causing visual noise
+                />
 
                 {/* Content wrapper - centered text */}
                 <div className="text-center">
