@@ -4,6 +4,7 @@ import JourneyPhase from '../components/journey/JourneyPhase';
 import JourneyCurve from '../components/journey/JourneyCurve';
 import { journeyPhases } from '../data/journeyData';
 import { FiStar } from 'react-icons/fi';
+import BackButton from "../components/BackButton";
 
 const Journey = () => {
     const [activePhase, setActivePhase] = useState(null);
@@ -63,6 +64,11 @@ const Journey = () => {
 
             {/* Content */}
             <div className="relative z-10">
+                <BackButton
+                    isJourney={true}
+                    className="absolute top-4 left-4 z-30"
+                    noteText="Use Bot for navigation"   // or change to whatever you want
+                />
                 {/* Header */}
                 <motion.div
                     className="text-center py-12 md:py-16 lg:py-20 px-4"
@@ -77,7 +83,7 @@ const Journey = () => {
                     >
                         <FiStar className="text-accent text-3xl md:text-4xl" />
                     </motion.div>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 cosmic-text-gradient">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 text-hero-gradient">
                         My Journey
                     </h1>
                     <p className="text-lg md:text-xl text-accent/80 max-w-2xl mx-auto font-body">

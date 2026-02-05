@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/projectsContent';
 import { useMascot } from "../context/MascotContext";
+import BackButton from "../components/BackButton";
 
 const Projects = () => {
     const [selectedProject, setSelectedProject] = useState(null);
@@ -120,12 +121,18 @@ const Projects = () => {
 
             {/* Foreground content – unchanged from your original */}
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+
+                {/* Button in top-left corner */}
+                <BackButton
+                    className="absolute top-4 left-4 z-20"   // z-20 = above other content
+                    noteText=""   // ← remove note if it's causing visual noise
+                />
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-16"
+                    className="text-center mb-16 mt-10"
                 >
                     <div className="inline-block relative mb-6">
                         <div className="absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 border-cyan-400"></div>

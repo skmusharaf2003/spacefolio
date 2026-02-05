@@ -2,6 +2,11 @@ export const profileData = {
   name: "Shaik Musharaf",
   title: "Full-Stack Developer & Space Enthusiast",
   bio: "Exploring the digital universe through code, design, and innovation. Passionate about creating stellar user experiences.",
+  resumeUrl:
+    "https://drive.google.com/uc?export=download&id=1crD9IjTnweYsQYWN8Jw1sVkWjSaFBQvx",
+
+  resumeViewUrl:
+    "https://drive.google.com/file/d/1crD9IjTnweYsQYWN8Jw1sVkWjSaFBQvx/view",
 };
 
 export const planets = [

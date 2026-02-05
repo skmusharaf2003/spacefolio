@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { skillsData } from "../data/skillsContent";
 import CoreSkillsWave from "../components/skills/OrbitCoreSkills";
 import SupportingSkillsWave from "../components/skills/SupportingSkillsWave";
+import BackButton from "../components/BackButton";
 
 // Enhanced Starfield with depth
 const EnhancedStarField = () => {
@@ -252,6 +253,10 @@ const SpacefolioSkills = () => {
             <EnhancedStarField />
 
             <div className="relative z-10 px-4 py-16 max-w-7xl mx-auto">
+                <BackButton
+                    className="absolute top-4 left-4 z-20"   // z-20 = above other content
+                    noteText=""   // ← remove note if it's causing visual noise
+                />
                 {/* Header */}
                 <div style={{
                     position: 'relative',
@@ -263,13 +268,11 @@ const SpacefolioSkills = () => {
                         initial={{ opacity: 0, y: -50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, ease: 'easeOut' }}
+                        className="text-hero-gradient"
                         style={{
                             fontSize: 'clamp(40px, 8vw, 96px)',
                             fontWeight: 900,
                             margin: 0,
-                            background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #ec4899 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
                             letterSpacing: '-0.03em',
                             lineHeight: 1,
                         }}

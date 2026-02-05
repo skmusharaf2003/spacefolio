@@ -662,7 +662,7 @@ const Bot = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-gradient-to-br from-secondary to-secondary-light rounded-full shadow-2xl flex items-center justify-center text-accent hover:shadow-accent/50 transition-shadow duration-300"
+                className="fixed bottom-8 right-8 z-50 w-16 h-16 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-full shadow-2xl flex items-center justify-center text-accent hover:shadow-accent/50 transition-shadow duration-300"
             >
                 <AnimatePresence mode="wait">
                     {getMoodIcon()}
