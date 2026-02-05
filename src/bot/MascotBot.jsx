@@ -53,7 +53,7 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
         const maxX = window.innerWidth - botRect.width - padding;
         const maxY = window.innerHeight - botRect.height - padding;
 
-        if (target) {
+        if (target && voiceEnabled) {
             // Follow target with offset and clamping
             const desiredX = target.x - botRect.width / 2 + 60;
             const desiredY = target.y - botRect.height / 2 - 60;
