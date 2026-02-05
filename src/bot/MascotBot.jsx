@@ -141,9 +141,11 @@ const MascotBot = ({ target, speech, voiceEnabled }) => {
     useEffect(() => {
         if (!voiceEnabled) {
             window.speechSynthesis.cancel();
+            clearSpeech();
+            clearActivePlanetPos();
             setMood("idle");
         }
-    }, [voiceEnabled, clearSpeech]);
+    }, [voiceEnabled, clearActivePlanetPos, clearSpeech]);
 
     const normalizeHint = (text) => {
         if (!text) return text;
